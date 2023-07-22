@@ -10,10 +10,11 @@ class ListingController extends Controller
 {
     use PaginationTrait;
 
-    public function index() {
+    public function index()
+    {
         $response = Http::get(env("SINGLE_SERVICE_API_URL") . "barang");
         $barangDataJson = $response->json()["data"];
-        $listings = $this->paginate($barangDataJson, 100);
+        $listings = $this->paginate($barangDataJson, 4);
 
         return view("listings.index", [
             "listings" => $listings
@@ -23,5 +24,19 @@ class ListingController extends Controller
         // return view("listings.index", [
         //     "listings" => []
         // ]);
+    }
+
+    public function show($id)
+    {
+        // dd(env("SINGLE_SERVICE_API_URL") . "barang/{$id}");
+        $response = Http::get(env("SINGLE_SERVICE_API_URL") . "barang/{$id}");
+        if ($response->status() === 400) {
+            abort(404);
+        }
+        $listing = $response->json()["data"];
+        
+        return view("listings.show", [
+            "listing" => $listing
+        ]);
     }
 }

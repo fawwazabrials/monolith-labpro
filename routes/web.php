@@ -14,4 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Show all listings
 Route::get('/', [ListingController::class, "index"]);
+
+// Show singular listing
+Route::get('/listing/{id}', [ListingController::class, "show"]);

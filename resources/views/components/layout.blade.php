@@ -12,7 +12,7 @@
     <header>
         <nav class="navbar navbar-expand-md navbar-light bg-light border">
             <div class="container">
-                <a href="#" class="navbar-brand">🗿</a>
+                <a href="/" class="navbar-brand">🗿</a>
                 <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="nav">
                     <ul class="navbar-nav ms-auto">
