@@ -12,6 +12,8 @@ class ListingController extends Controller
 
     public function index()
     {
+        // dd(request()->header("Authorization"));
+
         $response = Http::get(env("SINGLE_SERVICE_API_URL") . "barang");
         $barangDataJson = $response->json()["data"];
         $listings = $this->paginate($barangDataJson, 4);

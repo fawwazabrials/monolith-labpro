@@ -17,10 +17,10 @@
                 <div class="collapse navbar-collapse" id="nav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a href="" class="nav-link">Login</a>
+                            <a href="/login" class="nav-link">Login</a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">Register</a>
+                            <a href="/logout" class="nav-link">Logout</a>
                         </li>
                     </ul>
                 </div>

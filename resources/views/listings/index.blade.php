@@ -18,4 +18,6 @@
         <h2 class="h2">No barang found</h2>
         
     @endif
+
+    {{-- {{ request()->session()->all() }} --}}
 </x-layout>

@@ -12,21 +12,23 @@
                 <p class="card-subtitle mb-2 text-body-secondary">Log in to your account</p>
             </div>
 
-            <form action="">
+            <form method="POST" action="/auth/login">
                 @csrf
 
-                <div class="mb-3">
+                {{-- <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="username">
-                </div>
+                    <input type="text" class="form-control" name="username">
+                </div> --}}
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email">
+                    <input type="email" class="form-control" name="email">
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password">
+                    <input type="password" class="form-control" name="password">
                 </div>
+
+                <button class="btn btn-primary" type="submit">Submit</button>
             </form>
         </div>
     </div>

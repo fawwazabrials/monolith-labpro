@@ -23,3 +23,6 @@ Route::get('/listing/{id}', [ListingController::class, "show"]);
 
 // Show log in page
 Route::get('/login', [UserController::class, "login"]);
+
+// logs in user
+Route::post('/auth/login', [UserController::class, "postLogin"]);
