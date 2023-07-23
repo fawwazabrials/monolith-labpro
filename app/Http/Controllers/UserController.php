@@ -25,7 +25,11 @@ class UserController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        // dd($token);
+        // dd();
+        // auth()->setToken(auth()->tokenById(1));
+        // dd(auth()->user());
+
+        // dd(request()->bearerToken());
 
         // $request = Request::create('/api/auth/login', 'POST', $credentials);
         // $response = Route::dispatch($request);
@@ -34,6 +38,8 @@ class UserController extends Controller
         // // dd($cookieRes);
 
         // dd($response);
+
+        // $cookie = cookie('jwt_token', 'value', $minutes);
 
         return redirect("/")->withCookie("jwt_token", $token, auth()->factory()->getTTL() * 60, "/");
     }
