@@ -22,6 +22,7 @@
             
             <div class="d-flex justify-content-between">
                 <p class="card-text p-0 m-0"><strong>Rp{{ number_format($listing["harga"], 0, ',', '.') }}</strong></p>
+                {{-- TODO: jumlah beli nanti waktu implemen --}}
                 <a href="/" class="btn btn-primary btn-sm px-4">Buy</a>
             </div>
         </div>
