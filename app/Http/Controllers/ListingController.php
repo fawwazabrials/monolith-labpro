@@ -30,6 +30,9 @@ class ListingController extends Controller
 
     public function show($id)
     {
+        $user = auth()->user();
+        dd($user);
+
         // dd(env("SINGLE_SERVICE_API_URL") . "barang/{$id}");
         $response = Http::get(env("SINGLE_SERVICE_API_URL") . "barang/{$id}");
         if ($response->status() === 400) {

@@ -21,14 +21,20 @@ class UserController extends Controller
             "password" => "required"
         ]);
 
-        $request = Request::create('/api/auth/login', 'POST', $credentials);
-        $response = Route::dispatch($request);
+        if (!$token = auth()->attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
 
-        // $cookieRes = Cookie::get();
-        // dd($cookieRes);
+        // dd($token);
 
-        dd($response);
+        // $request = Request::create('/api/auth/login', 'POST', $credentials);
+        // $response = Route::dispatch($request);
 
-        return redirect("/");
+        // // $cookieRes = Cookie::get();
+        // // dd($cookieRes);
+
+        // dd($response);
+
+        return redirect("/")->withCookie("jwt_token", $token, auth()->factory()->getTTL() * 60, "/");
     }
 }
