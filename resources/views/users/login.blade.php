@@ -20,16 +20,34 @@
                     <input type="text" class="form-control" name="username">
                 </div> --}}
                 <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" name="email">
+                    <label for="email" class="form-label m-1">Email</label>
+                    <input type="email" class="form-control" name="email" value="{{ old("email") }}" placeholder="Enter email">
+
+                    @error('email')
+                        <p class="text-danger">{{ $message }}</p>                        
+                    @enderror
                 </div>
                 <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" name="password">
+                    <label for="password" class="form-label m-1">Password</label>
+                    <input type="password" class="form-control" name="password" placeholder="Enter password">
+
+                    @error('password')
+                        <p class="text-danger">{{ $message }}</p>                        
+                    @enderror
                 </div>
 
-                <button class="btn btn-primary" type="submit">Submit</button>
+                @error('invalid')
+                    <p class="text-danger">{{ $message }}</p>                        
+                @enderror
+
+                <div class="d-grid gap-2">
+                    <button class="btn btn-primary btn-block mb-3" type="submit">Submit</button>
+                </div>
             </form>
+
+            <div>
+                <p class="m-0">Don't have an account? <a href="/register" class="link">Register</a></p>
+            </div>
         </div>
     </div>
 </x-layout>

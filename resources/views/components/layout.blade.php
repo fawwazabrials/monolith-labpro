@@ -8,6 +8,8 @@
     <title>Monolith 🗿</title>
 </head>
 <body class="d-flex flex-column min-vh-100">
+    <x-flash-message />
+
     {{-- Navbar --}}
     <header>
         <nav class="navbar navbar-expand-md navbar-light bg-light border">
@@ -16,12 +18,29 @@
                 <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="nav">
                     <ul class="navbar-nav ms-auto">
+                        @auth
+                        <span class="navbar-text me-4"><strong>{{"Hi, " .auth()->user()->first_name . ' ' . auth()->user()->last_name}}</strong></span>
+                        <li class="nav-item">
+                            <a href="/history" class="nav-link">History</a>
+                        </li>
+                        <form method="POST" action="/logout">
+                            @csrf
+                            <button class="nav-link" type="submit">
+                              <i class=""></i> Logout
+                            </button>
+                          </form>
+                        {{-- <li class="nav-item">
+                            <a href="auth/logout" class="nav-link">Logout</a>
+                        </li>     --}}
+                        @endauth
+                        @guest
                         <li class="nav-item">
                             <a href="/login" class="nav-link">Login</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/logout" class="nav-link">Logout</a>
+                            <a href="/register" class="nav-link">register</a>
                         </li>
+                        @endguest
                     </ul>
                 </div>
             </div>

@@ -16,13 +16,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Show all listings
-Route::get('/', [ListingController::class, "index"]);
+Route::get('/', [ListingController::class, "index"])->name("home");
 
 // Show singular listing
-Route::get('/listing/{id}', [ListingController::class, "show"]);
+Route::get('/listing/{id}', [ListingController::class, "show"])->name("item-page");
 
 // Show log in page
-Route::get('/login', [UserController::class, "login"]);
+Route::get('/login', [UserController::class, "login"])->name("login");
 
 // logs in user
 Route::post('/auth/login', [UserController::class, "postLogin"]);
+
+// logs out user
+Route::post('/logout', [UserController::class, "logout"])->name("logout");

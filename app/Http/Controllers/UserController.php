@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Cookie;
 
 class UserController extends Controller
 {
+    // public function __construct()
+    // {
+    //     $this->middleware('auth')->except(['login', 'postLogin', 'register']);
+    // }
+
     // show login page
     public function login() {
         return view("users.login");
@@ -22,25 +27,17 @@ class UserController extends Controller
         ]);
 
         if (!$token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return back()->withErrors(['invalid' => 'Wrong email or password'])->onlyInput("email");
         }
 
-        // dd();
-        // auth()->setToken(auth()->tokenById(1));
-        // dd(auth()->user());
+        return redirect(route("home"))->withCookie("jwt_token", $token, auth()->factory()->getTTL() * 60, "/")->with("success", "User logged in successfully");
+    }
 
-        // dd(request()->bearerToken());
+    // show register page
+    public function logout() {
+        auth()->logout();
+        Cookie::forget("jwt_token");
 
-        // $request = Request::create('/api/auth/login', 'POST', $credentials);
-        // $response = Route::dispatch($request);
-
-        // // $cookieRes = Cookie::get();
-        // // dd($cookieRes);
-
-        // dd($response);
-
-        // $cookie = cookie('jwt_token', 'value', $minutes);
-
-        return redirect("/")->withCookie("jwt_token", $token, auth()->factory()->getTTL() * 60, "/");
+        return redirect(route("home"))->with("danger", "User logged out successfully");
     }
 }
