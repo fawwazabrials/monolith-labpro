@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ListingController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,16 +23,19 @@ Route::get('/', [ListingController::class, "index"])->name("home");
 Route::get('/listing/{id}', [ListingController::class, "show"])->name("item-page");
 
 // Show log in page
-Route::get('/login', [UserController::class, "login"])->name("login");
+Route::get('/login', [UserController::class, "login"])->name("login")->middleware("guest");
 
 // logs in user
-Route::post('/auth/login', [UserController::class, "authenticate"]);
+Route::post('/auth/login', [UserController::class, "authenticate"])->middleware("guest");
 
 // logs out user
 Route::post('/logout', [UserController::class, "logout"])->name("logout");
 
 // show register page
-Route::get('/register', [UserController::class, "register"])->name("register");
+Route::get('/register', [UserController::class, "register"])->name("register")->middleware("guest");
 
 // registers a user
-Route::post('/auth/register', [UserController::class, "store"]);
+Route::post('/auth/register', [UserController::class, "store"])->middleware("guest");
+
+// show transaction history of user
+Route::get('/history', [TransactionController::class, "index"])->name("history")->middleware("auth");

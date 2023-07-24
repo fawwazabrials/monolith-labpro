@@ -14,15 +14,15 @@
     {{-- Navbar --}}
     <header>
         <nav class="navbar navbar-expand-md navbar-light bg-light border">
-            <div class="container">
-                <a href="/" class="navbar-brand">🗿</a>
+            <div class="container-fluid">
+                <a href="/" class="navbar-brand">Monolith</a>
                 <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="nav">
                     <ul class="navbar-nav ms-auto">
                         @auth
                         <span class="navbar-text me-4"><strong>{{"Hi, " .auth()->user()->first_name . ' ' . auth()->user()->last_name}}</strong></span>
                         <li class="nav-item">
-                            <a href="/history" class="nav-link">History</a>
+                            <a href="{{ route("history") }}" class="nav-link">History</a>
                         </li>
                         <form method="POST" action="/logout">
                             @csrf

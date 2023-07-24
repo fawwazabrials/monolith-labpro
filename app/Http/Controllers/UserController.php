@@ -56,10 +56,7 @@ class UserController extends Controller
         // dd($credentials);
 
         $user = User::create($credentials);
-
-
         $token = auth()->login($user);
-
         return redirect(route("home"))->withCookie("jwt_token", $token, auth()->factory()->getTTL() * 60, "/")->with("success", "User logged in successfully");
     }
 }
