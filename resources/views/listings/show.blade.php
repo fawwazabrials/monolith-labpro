@@ -20,10 +20,24 @@
                 </p>
             </div>
             
-            <div class="d-flex justify-content-between">
+            {{-- <div class="d-flex justify-content-between align-items-center"> --}}
                 <p class="card-text p-0 m-0"><strong>Rp{{ number_format($listing["harga"], 0, ',', '.') }}</strong></p>
-                {{-- TODO: jumlah beli nanti waktu implemen --}}
-                <a href="/" class="btn btn-primary btn-sm px-4">Buy</a>
+                <form method="POST" action="/buy">
+                @csrf
+
+                <div class="input-group">
+                    @foreach($listing as $key => $value)
+                        <input type="hidden" name="{{ "listing_".$key }}" value="{{ $value }}">
+                    @endforeach
+                    <input type="text" class="form-control" name="quantity" value="{{ old("quantity") }}" placeholder="Quantity">
+                    <button class="input-group-text bg-primary text-white" type="submit">Buy</button>
+                </div>
+
+                @error('quantity')
+                    <p class="text-danger m-0 mt-1">{{ $message }}</p>                         
+                @enderror
+
+                </form>
             </div>
         </div>
     </div>

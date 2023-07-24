@@ -39,3 +39,5 @@ Route::post('/auth/register', [UserController::class, "store"])->middleware("gue
 
 // show transaction history of user
 Route::get('/history', [TransactionController::class, "index"])->name("history")->middleware("auth");
+
+Route::post('/buy', [ListingController::class, "buy"])->middleware("auth");
