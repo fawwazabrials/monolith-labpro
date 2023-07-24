@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Cookie;
 
 class UserController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('auth')->except(['login', 'postLogin', 'register']);
-    // }
+
 
     // show login page
     public function login() {
@@ -20,7 +19,7 @@ class UserController extends Controller
     }
 
     // login logic
-    public function postLogin() {
+    public function authenticate() {
         $credentials = request()->validate([
             "email" => ["required", "email"],
             "password" => "required"
@@ -39,5 +38,28 @@ class UserController extends Controller
         Cookie::forget("jwt_token");
 
         return redirect(route("home"))->with("danger", "User logged out successfully");
+    }
+
+    public function register() {
+        return view("users.register");
+    }
+
+    public function store() {
+        $credentials = request()->validate([
+            "first_name" => ['required', 'min:3'],
+            "last_name" => ['required', 'min:3'],
+            "username" => ['required', 'min:3', Rule::unique('users', 'username')],
+            "email" => ['required', 'email', Rule::unique('users', 'email')],
+            "password" => "required|confirmed|min:6"
+        ]);
+        $credentials["password"] = bcrypt($credentials["password"]);
+        // dd($credentials);
+
+        $user = User::create($credentials);
+
+
+        $token = auth()->login($user);
+
+        return redirect(route("home"))->withCookie("jwt_token", $token, auth()->factory()->getTTL() * 60, "/")->with("success", "User logged in successfully");
     }
 }

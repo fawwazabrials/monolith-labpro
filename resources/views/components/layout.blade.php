@@ -38,7 +38,7 @@
                             <a href="/login" class="nav-link">Login</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/register" class="nav-link">register</a>
+                            <a href="{{ route("register") }}" class="nav-link">Register</a>
                         </li>
                         @endguest
                     </ul>

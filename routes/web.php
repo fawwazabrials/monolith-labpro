@@ -25,7 +25,13 @@ Route::get('/listing/{id}', [ListingController::class, "show"])->name("item-page
 Route::get('/login', [UserController::class, "login"])->name("login");
 
 // logs in user
-Route::post('/auth/login', [UserController::class, "postLogin"]);
+Route::post('/auth/login', [UserController::class, "authenticate"]);
 
 // logs out user
 Route::post('/logout', [UserController::class, "logout"])->name("logout");
+
+// show register page
+Route::get('/register', [UserController::class, "register"])->name("register");
+
+// registers a user
+Route::post('/auth/register', [UserController::class, "store"]);
