@@ -16,27 +16,22 @@ services:
         ports:
             - 9000:8080
         depends_on:
-            - database
+            - mysql-db
         networks:
             - labpro-net
 
-    database:
-        container_name: database
-        image: mysql:8.0
-        ports:
-            -   3306:3306
-        environment:
-            - MYSQL_DATABASE=default
-            - MYSQL_USER=laravel
-            - MYSQL_PASSWORD=secret
-            - MYSQL_ROOT_PASSWORD=secret
+    mysql-db:
+        image: mysql:8
+        container_name: mysql-db
         volumes:
-            - db-data:/var/lib/mysql
+            - ./run/var:/var/lib/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=securerootpassword
+            - MYSQL_DATABASE=labpro-monolith
+            - MYSQL_USER=dbuser
+            - MYSQL_PASSWORD=secret
         networks:
             - labpro-net
-
-volumes:
-    db-data: ~
 
 networks:
   labpro-net:

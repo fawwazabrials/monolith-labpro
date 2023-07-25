@@ -49,6 +49,9 @@ class ListingController extends Controller
         request()->validate([
             "quantity" => ["required", "numeric", "gt:0" , new BuyRule]
         ]);
+
+        // dd(env("SINGLE_SERVICE_API_URL") . "/barang/" . $request["listing_id"]);
+        // dd(env("MONOLITH_TOKEN"));
         
         $response = Http::withToken(env("MONOLITH_TOKEN"))
                 ->put(env("SINGLE_SERVICE_API_URL") . "/barang/" . $request["listing_id"] , [
