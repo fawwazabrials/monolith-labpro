@@ -1,54 +1,54 @@
-FROM php:8.2-apache
+# Used for prod build.
+FROM php:8.2.4-fpm as php
 
-RUN apt-get update
+# Set environment variables
+ENV PHP_OPCACHE_ENABLE=1
+ENV PHP_OPCACHE_ENABLE_CLI=0
+ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS=0
+ENV PHP_OPCACHE_REVALIDATE_FREQ=0
 
-# 1. development packages
-RUN apt-get install -y \
-    git \
-    zip \
-    curl \
-    sudo \
-    unzip \
-    libicu-dev \
-    libbz2-dev \
-    libpng-dev \
-    libjpeg-dev \
-    libmcrypt-dev \
-    libreadline-dev \
-    libfreetype6-dev \
-    libonig-dev \
-    libzip-dev \
-    g++
+# Install dependencies.
+RUN apt-get update && apt-get install -y unzip libpq-dev libcurl4-gnutls-dev nginx libonig-dev
 
-# 2. apache configs + document root
-ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
-RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+# Install PHP extensions.
+RUN docker-php-ext-install mysqli pdo pdo_mysql bcmath curl opcache mbstring
 
-# 3. mod_rewrite for URL rewrite and mod_headers for .htaccess extra headers like Access-Control-Allow-Origin-
-RUN a2enmod rewrite headers
+# Copy composer executable.
+COPY --from=composer:2.5.8 /usr/bin/composer /usr/bin/composer
 
-# 4. start with base php config, then add extensions
-RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+# Copy configuration files.
+COPY ./docker/php/php.ini /usr/local/etc/php/php.ini
+COPY ./docker/php/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
+COPY ./docker/nginx/nginx.conf /etc/nginx/nginx.conf
 
-RUN docker-php-ext-install \
-    bz2 \
-    intl \
-    iconv \
-    bcmath \
-    opcache \
-    calendar \
-    mbstring \
-    pdo_mysql \
-    zip
+# Set working directory to /var/www.
+WORKDIR /var/www
 
-# 5. composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Copy files from current folder to container current folder (set in workdir).
+COPY --chown=www-data:www-data . .
 
-# 6. we need a user with the same UID/GID with host user
-# so when we execute CLI commands, all the host file's ownership remains intact
-# otherwise command from inside container will create root-owned files and directories
-ARG uid
-RUN useradd -G www-data,root -u $uid -d /home/devuser devuser
-RUN mkdir -p /home/devuser/.composer && \
-    chown -R devuser:devuser /home/devuser
+# Create laravel caching folders.
+RUN mkdir -p /var/www/storage/framework
+RUN mkdir -p /var/www/storage/framework/cache
+RUN mkdir -p /var/www/storage/framework/testing
+RUN mkdir -p /var/www/storage/framework/sessions
+RUN mkdir -p /var/www/storage/framework/views
+
+# Fix files ownership.
+RUN chown -R www-data /var/www/storage
+RUN chown -R www-data /var/www/storage/framework
+RUN chown -R www-data /var/www/storage/framework/sessions
+
+# Set correct permission.
+RUN chmod -R 755 /var/www/storage
+RUN chmod -R 755 /var/www/storage/logs
+RUN chmod -R 755 /var/www/storage/framework
+RUN chmod -R 755 /var/www/storage/framework/sessions
+RUN chmod -R 755 /var/www/bootstrap
+
+# Adjust user permission & group
+RUN usermod --uid 1000 www-data
+RUN groupmod --gid 1001 www-data
+
+# Run the entrypoint file.
+ENTRYPOINT [ "docker/entrypoint.sh" ]
