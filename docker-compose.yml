@@ -7,6 +7,7 @@ services:
             target: php
             args:
                 - APP_ENV=${APP_ENV}
+        env_file: .env
         environment:
             - APP_ENV=${APP_ENV}
         working_dir: /var/www
@@ -16,6 +17,9 @@ services:
             - 9000:8080
         depends_on:
             - database
+        networks:
+            - labpro-net
+
     database:
         container_name: database
         image: mysql:8.0
@@ -28,5 +32,12 @@ services:
             - MYSQL_ROOT_PASSWORD=secret
         volumes:
             - db-data:/var/lib/mysql
+        networks:
+            - labpro-net
+
 volumes:
     db-data: ~
+
+networks:
+  labpro-net:
+    name: "labpro-network"

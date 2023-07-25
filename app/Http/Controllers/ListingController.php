@@ -14,7 +14,8 @@ class ListingController extends Controller
 
     public function index()
     {
-        $response = Http::get(env("SINGLE_SERVICE_API_URL") . "barang");
+        // dd(env("SINGLE_SERVICE_API_URL") . "/barang/");
+        $response = Http::get(env("SINGLE_SERVICE_API_URL") . "/barang");
         $barangDataJson = $response->json()["data"];
         $listings = $this->paginate($barangDataJson, 4);
 
@@ -30,7 +31,7 @@ class ListingController extends Controller
 
     public function show($id)
     {
-        $response = Http::get(env("SINGLE_SERVICE_API_URL") . "barang/{$id}");
+        $response = Http::get(env("SINGLE_SERVICE_API_URL") . "/barang/{$id}");
         if ($response->status() === 400) {
             abort(404);
         }
@@ -50,7 +51,7 @@ class ListingController extends Controller
         ]);
         
         $response = Http::withToken(env("MONOLITH_TOKEN"))
-                ->put(env("SINGLE_SERVICE_API_URL") . "barang/" . $request["listing_id"] , [
+                ->put(env("SINGLE_SERVICE_API_URL") . "/barang/" . $request["listing_id"] , [
                     "nama" => $request["listing_nama"],
                     "harga" => (int)$request["listing_harga"],
                     "stok" => (int)$request["listing_stok"] - $request["quantity"],
