@@ -1,0 +1,11 @@
+# Dummy User 1
+abiel@gmail.com
+password
+
+# Dummy User 2
+frendy@gmail.com
+password
+
+# Dummy User 3
+jonn@gmail.com
+password
