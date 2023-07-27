@@ -7,8 +7,8 @@
                 </svg>
             </a>
             <div>
-                <h2 class="card-title">{{ $listing["nama"] }}</h2>
-                <h6 class="card-subtitle mb-2 text-body-secondary">Stok: {{ $listing["stok"] }} pcs</h6>
+                <h2 class="card-title">{{ $listing->nama }}</h2>
+                <h6 class="card-subtitle mb-2 text-body-secondary">Stok: {{ $listing->stok }} pcs</h6>
                 {{-- nama perusahaan harusnya disini --}}
             </div>
             <div>
@@ -21,7 +21,7 @@
             </div>
             
             {{-- <div class="d-flex justify-content-between align-items-center"> --}}
-                <p class="card-text p-0 m-0"><strong>Rp{{ number_format($listing["harga"], 0, ',', '.') }}</strong></p>
+                <p class="card-text p-0 m-0"><strong>Rp{{ number_format($listing->harga, 0, ',', '.') }}</strong></p>
                 <form method="POST" action="/buy">
                 @csrf
 
