@@ -21,15 +21,19 @@ Monolith adalah sebuah aplikasi *pembelian barang sesajen*. Aplikasi ini akan be
 * Nginx v1.25.1
 
 ## Design Patterns
-* Decorator
+* Decorator  
 Website menggunakan JWT sebagai autentikasi user yang sedang log in, token ini akan disimpan di dalam cookie. Untuk menghindari penulisan kode untuk menyimpan token di authorization header, maka dibuatlah decorator middleware untuk menangani hal tersebut.
+* Singleton  
+...
+* Provider  
+...
 
 **TODO: Despat 2 lagi oi**
 
-## Requirements
+## Requirements  
 Pastikan [Docker](https://docs.docker.com/desktop/install/windows-install/) sudah terinstall di mesin dan mesin dapat menjalankan Makefile. Pastikan juga container [Single Service API](https://github.com/fawwazabrials/ssbackend-labpro) sedang berjalan.
 
-## Setup
+## Setup  
 Terdapat 2 pilihan setup yang bisa dijalankan. Pilihan 1 adalah setup di WSL2 yang sangat dianjurkan. Menggunakan cara ini akan meningkatkan performa loading website. Untuk informasi lanjut mengenai hal tersebut dapat dibaca di [appendix](#appendix). Pilihan kedua adalah setup di Windows seperti biasa.
 
 ### 1. Setup WSL (recommended)
@@ -40,7 +44,7 @@ Terdapat 2 pilihan setup yang bisa dijalankan. Pilihan 1 adalah setup di WSL2 ya
 5. Jika belum, jalankan container [Single Service API](https://github.com/fawwazabrials/ssbackend-labpro)
 6. Ketik `make setup` pada terminal / cmd
 
-### 2. Setup Windows
+### 2. Setup Windows  
 1. Clone repository ini
 2. Duplikat `.env.example` kemudian rename menjadi `.env`.
 3. Jalankan aplikasi docker
@@ -50,21 +54,18 @@ Terdapat 2 pilihan setup yang bisa dijalankan. Pilihan 1 adalah setup di WSL2 ya
 Bila tidak mempunyai Makefile, dapat step terakhir dapat diganti dengan menjalankan command
 ``` Command masuk sini lah lupa```
 
-## Features
-* User Login dan Register
+## Features  
+* User Login dan Register  
 Pengguna dapet melakukan login dengan akun yang terdata pada database. Jika belum mempunyai akun, pengguna dapat mendaftarkan akunnya pada menu register. Jika pengguna ingin sekedar mencoba, disediakan 3 akun dummy pada file `dummy.txt`.
-
-* Katalog Barang
+* Katalog Barang  
 Katalog barang akan berlaku juga sebagai home page. Monolith akan melakukan penggambilan data barang yang tersedia dari Single Service API yang kemudian akan ditampilkan. Pengguna dapat memilih salah satu barang untuk melihat detail barang tersebut.
-
-* Pembelian Barang
+* Pembelian Barang  
 Di dalam page detail barang, pengguna dapat memilih jumlah barang yang ingin dibeli. Tentunya kuantitas yang akan dibeli tidak boleh melebihi stok barang (iyalah:v). Setelah memasukan jumlah barang, pengguna dapat menekan tombol buy untuk membeli barang tersebut. Untuk menggunakan fitur membeli, seorang pengguna harus login terlebih dahulu!
-
-* Riwayat Pembelian
+* Riwayat Pembelian  
 Setiap pembelian yang sudah dilakukan oleh pengguna akan masuk ke dalam riwayat pembelian. Menu riwayat akan menunjukan seluruh transaksi pembelian yang telah dilakukan oleh pengguna. Untuk melihat riwayat pembelian, seorang pengguna harus login terlebih dahulu!
 
 ## Bonuses
-1. Responsive Layout
+1. Responsive Layout  
 Website dibuat dengan menggunakan Bootstrap sebagai framework CSS. Bootstrap menyediakan class-class plug and play yang bersifat responsive dan mobile-first. Sehingga, seluruh page website bersifat responsive dan dapat digunakan pada device mobile.
 
 TODO: Search bar, keranjang belanja
