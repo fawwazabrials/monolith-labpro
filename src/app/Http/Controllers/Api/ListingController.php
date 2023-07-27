@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use Exception;
+use Illuminate\Http\Request;
 use App\Services\ListingService;
 use App\Http\Controllers\Controller;
-use Exception;
 
 class ListingController extends Controller
 {
@@ -18,7 +19,7 @@ class ListingController extends Controller
         } catch (Exception $e) {
             $response = response()->json([
                 "status" => "error",
-                "message" => "Single Service API not running"
+                "message" => "Check your fields again and check if the Single Service API is running!"
             ], 500);
         }
 
@@ -32,10 +33,24 @@ class ListingController extends Controller
         } catch (Exception $e) {
             $response = response()->json([
                 "status" => "error",
-                "message" => "Single Service API not running"
+                "message" => "Check your fields again and check if the Single Service API is running!"
             ], 500);
         }
 
         return $response;
+    }
+
+    public function update($id) {
+        try {
+            $response = $this->listingService->update($id);
+            $response = response()->json($response->json(), 200);
+        } catch (Exception $e) {
+            $response = response()->json([
+                "status" => "error",
+                "message" => "Check your fields again and check if the Single Service API is running!",
+            ], 500);
+        }
+
+        return $response;        
     }
 }
