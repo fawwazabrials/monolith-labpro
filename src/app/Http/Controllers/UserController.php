@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\Cookie;
 
 class UserController extends Controller
 {
-
-
     // show login page
     public function login() {
         return view("users.login");
@@ -25,18 +23,18 @@ class UserController extends Controller
             "password" => "required"
         ]);
 
-        if (!$token = auth()->attempt($credentials)) {
+        $request = Request::create("api/auth/login", "POST", $credentials);
+        $response = Route::dispatch($request);
+        if ($response->getData()->status === "error") {
             return back()->withErrors(['invalid' => 'Wrong email or password'])->onlyInput("email");
         }
-
-        return redirect(route("home"))->withCookie("jwt_token", $token, auth()->factory()->getTTL() * 60, "/")->with("success", "User logged in successfully");
+        return redirect(route("home"))->withCookie("jwt_token", $response->getData()->token, auth()->factory()->getTTL() * 60, "/")->with("success", "User logged in successfully");
     }
 
     // show register page
     public function logout() {
-        auth()->logout();
-        Cookie::forget("jwt_token");
-
+        $request = Request::create("api/auth/logout", "POST");
+        $response = Route::dispatch($request);
         return redirect(route("home"))->with("danger", "User logged out successfully");
     }
 
@@ -53,10 +51,9 @@ class UserController extends Controller
             "password" => "required|confirmed|min:6"
         ]);
         $credentials["password"] = bcrypt($credentials["password"]);
-        // dd($credentials);
-
-        $user = User::create($credentials);
-        $token = auth()->login($user);
-        return redirect(route("home"))->withCookie("jwt_token", $token, auth()->factory()->getTTL() * 60, "/")->with("success", "User logged in successfully");
+    
+        $request = Request::create("api/auth/register", "POST", $credentials);
+        $response = Route::dispatch($request);
+        return redirect(route("home"))->withCookie("jwt_token", $response->getData()->token, auth()->factory()->getTTL() * 60, "/")->with("success", "User logged in successfully");
     }
 }
