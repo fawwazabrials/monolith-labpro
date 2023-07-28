@@ -23,7 +23,7 @@ class ListingController extends Controller
         }
 
         $barangDataJson = $response->getData()->data;
-        $listings = $this->paginate($barangDataJson, 4);
+        $listings = $this->paginate($barangDataJson, 8);
         // dd($listings);
         return view("listings.index", [
             "listings" => $listings

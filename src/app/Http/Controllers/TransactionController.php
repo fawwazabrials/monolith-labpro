@@ -14,7 +14,7 @@ class TransactionController extends Controller
         $request = Request::create("api/transaction", "GET");
         $response = Route::dispatch($request);
 
-        $transactions = $this->paginate($response->getData()->data, 4)->setPath('/history');
+        $transactions = $this->paginate($response->getData()->data, 10)->setPath('/history');
         return view("transactions.index", [
             "transactions" => $transactions,
             "index" => 1
