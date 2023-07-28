@@ -6,7 +6,12 @@ use Illuminate\Support\Facades\Http;
  
 class ListingService {
     public function index() {
-        $response = Http::get(env("SINGLE_SERVICE_API_URL") . "/barang");
+        $query = "?";
+        foreach (request()->query() as $key => $val) {
+            $query = $query . $key . "=" . $val . "&";
+        }
+
+        $response = Http::get(env("SINGLE_SERVICE_API_URL") . "/barang" . $query);
         return $response;
     }
 

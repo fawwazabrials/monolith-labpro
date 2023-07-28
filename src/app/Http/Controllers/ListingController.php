@@ -15,7 +15,12 @@ class ListingController extends Controller
 
     public function index()
     {
-        $request = Request::create("api/listing", "GET");
+        $query = "?";
+        if (request()->query("q")) {
+            $query = $query . "q=" . request()->query("q") . "&";
+        }    
+
+        $request = Request::create("api/listing" . $query, "GET");
         $response = Route::dispatch($request);
 
         if ($response->getData()->status === "error") {
@@ -23,8 +28,20 @@ class ListingController extends Controller
         }
 
         $barangDataJson = $response->getData()->data;
-        $listings = $this->paginate($barangDataJson, 8);
-        // dd($listings);
+        if ($sortby = request()->query("sortby")) {
+            $query = $query . "sortby=" . $sortby;
+            if ($sortby == "nama") {
+                $barangDataJson = collect($barangDataJson)->sortBy('nama')->reverse()->toArray();
+            } else if ($sortby == "harga_d") {
+                $barangDataJson = collect($barangDataJson)->sortBy('harga')->reverse()->toArray();
+            } else if ($sortby == "harga_a") {
+                $barangDataJson = collect($barangDataJson)->sortBy('harga')->toArray();
+            } else if ($sortby == "stok") {
+                $barangDataJson = collect($barangDataJson)->sortBy('stok')->reverse()->toArray();
+            }
+        }
+
+        $listings = $this->paginate($barangDataJson, 8)->setPath('/'.$query);
         return view("listings.index", [
             "listings" => $listings
         ]);

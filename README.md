@@ -67,8 +67,9 @@ Setiap pembelian yang sudah dilakukan oleh pengguna akan masuk ke dalam riwayat 
 ## Bonuses
 1. Responsive Layout  
 Website dibuat dengan menggunakan Bootstrap sebagai framework CSS. Bootstrap menyediakan class-class plug and play yang bersifat responsive dan mobile-first. Sehingga, seluruh page website bersifat responsive dan dapat digunakan pada device mobile.
-
-TODO: Search bar, keranjang belanja
+2. Search bar  
+Untuk mencari barang yang diinginkan, pengguna dapat menggunakan search bar. Pengguna dapat mencari berdasarkan nama suatu barang dan dapat juga mensortir barang berdasarkan nama, stok, dan harga secara menaik atau menurun.
+TODO: Dokumentasi API, Keranjang belanja, Deployment, OWASP?
 
 ## Appendix
 * Docker menggunakan WSL2 sebagai alat untuk menyimpan dan menjalankan container. Ternyata WSL2 memiliki performa I/O yang sangat lambat ketika melakukan mounting ([source](https://github.com/microsoft/WSL/issues/4197)). Karena source code ditempatkan di filesystem Windows, Docker akan melakukan mounting ke drive tempat kode berada. Hal ini menyebabkan transaksi antar filesystem yang sangat lambat. Ditambah lagi, PHP sangat inefisien dalam melakukan loading dependency ([source](https://dev.to/tylerlwsmith/speed-up-laravel-in-docker-by-moving-vendor-directory-19b9)). Jika source code tetap ditempatkan di Windows, dari testing saya, saya mendapatkan average load time selama ~10s. Jika source code ditempatkan langsung di dalam WSL 2, average load time turun menjadi **~100ms**.
