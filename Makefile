@@ -1,5 +1,4 @@
 setup:
-	@make copy-env
 	@make build
 	@make up
 	@make composer-setup
