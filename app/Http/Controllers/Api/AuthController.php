@@ -5,12 +5,25 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
 {
     public function authenticate()
     {
+        $validator = Validator::make(request()->all(), [
+            "email" => ["required", "email"],
+            "password" => "required"
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                "status" => "error",
+                "message" => $validator->messages(),
+            ], 400);
+        }
+
         $credentials = request()->validate([
             "email" => ["required", "email"],
             "password" => "required"
@@ -34,6 +47,21 @@ class AuthController extends Controller
 
     public function store()
     {
+        $validator = Validator::make(request()->all(), [
+            "first_name" => ['required', 'min:3'],
+            "last_name" => ['required', 'min:3'],
+            "username" => ['required', 'min:3', Rule::unique('users', 'username')],
+            "email" => ['required', 'email', Rule::unique('users', 'email')],
+            "password" => "required|min:6"
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                "status" => "error",
+                "message" => $validator->messages(),
+            ], 400);
+        }
+
         $credentials = request()->validate([
             "first_name" => ['required', 'min:3'],
             "last_name" => ['required', 'min:3'],
@@ -41,6 +69,8 @@ class AuthController extends Controller
             "email" => ['required', 'email', Rule::unique('users', 'email')],
             "password" => "required|min:6"
         ]);
+
+        $credentials["password"] = bcrypt($credentials["password"]);
 
         $user = User::create($credentials);
         $token = auth()->login($user);

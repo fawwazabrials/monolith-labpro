@@ -1,0 +1,852 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Monolith API Documentation",
+    "description": "Dokumentasi yang dipakain oleh website fullstack Monolith",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000/api",
+      "description": "Local server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Listings",
+      "description": "API Endpoints untuk barang"
+    },
+    {
+      "name": "Authentication",
+      "description": "API Endpoints untuk authentikasi user"
+    },
+    {
+      "name": "Transactions",
+      "description": "API Endpoints untuk transaksi"
+    }
+  ],
+  "paths": {
+    "/listing": {
+      "get": {
+        "tags": [
+          "Listings"
+        ],
+        "summary": "Mengambil barang",
+        "description": "Mengembalikan list of barang",
+        "operationId": "getListing",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Pencarian berdasarkan nama dan kode barang",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "dead single service",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeadSingleServiceErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/listing/{id}": {
+      "get": {
+        "tags": [
+          "Listings"
+        ],
+        "summary": "Mencari barang by id.",
+        "description": "Mengembalikan satu barang.",
+        "operationId": "getListingById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID dari barang yang dicari",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_1"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "id not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "dead single service",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeadSingleServiceErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Listings"
+        ],
+        "summary": "Update barang by id.",
+        "description": "Memperbaharui informasi barang.",
+        "operationId": "updateBarang",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID dari barang yang akan di-update",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Listing"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_400_1"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "dead single service",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeadSingleServiceErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transaction": {
+      "get": {
+        "tags": [
+          "Transactions"
+        ],
+        "summary": "Mengambil transaksi pengguna",
+        "description": "Mengembalikan list of transaksi",
+        "operationId": "getTransaction",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_3"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Transactions"
+        ],
+        "summary": "Membuat transaksi",
+        "description": "Membuat transaksi baru pengguna",
+        "operationId": "createTransaction",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Transaction"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_4"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_400_2"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Login pengguna",
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/auth_login_body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_5"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_400_3"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "wrong email or password",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_401"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Membuat pengguna baru",
+        "operationId": "register",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/auth_register_body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_6"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_400_4"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Logout pengguna",
+        "operationId": "logout",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_7"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_401_1"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true,
+            "example": 1
+          },
+          "first_name": {
+            "type": "string",
+            "example": "Abiel"
+          },
+          "last_name": {
+            "type": "string",
+            "example": "Saffa"
+          },
+          "username": {
+            "type": "string",
+            "example": "abiel123"
+          },
+          "email": {
+            "type": "string",
+            "example": "abiel@gmail.com"
+          }
+        }
+      },
+      "Transaction": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true,
+            "example": 1
+          },
+          "item_name": {
+            "type": "string",
+            "example": "Samsung Galaxy Tab A7 Lite Wifi 3GB/32GB - Gray"
+          },
+          "price": {
+            "type": "integer",
+            "format": "int32",
+            "example": 1899000
+          },
+          "amount": {
+            "type": "integer",
+            "format": "int32",
+            "example": 1
+          },
+          "user_id": {
+            "type": "integer",
+            "format": "int32",
+            "example": 1
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date",
+            "readOnly": true
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date",
+            "readOnly": true
+          }
+        }
+      },
+      "Listing": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true,
+            "example": "fe6f6bf7-ace1-491f-ade1-9cc9a90481df"
+          },
+          "nama": {
+            "type": "string",
+            "example": "Samsung Galaxy Tab A7 Lite Wifi 3GB/32GB - Gray"
+          },
+          "harga": {
+            "type": "integer",
+            "format": "int32",
+            "example": 1899000
+          },
+          "stok": {
+            "type": "integer",
+            "format": "int32",
+            "example": 50
+          },
+          "kode": {
+            "type": "string",
+            "example": "TAB1"
+          },
+          "perusahaan_id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "e16bf2cc-d503-4d2c-8010-1a4e5f30ab24"
+          }
+        }
+      },
+      "UnauthorizedErrorResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "error"
+          },
+          "message": {
+            "type": "string",
+            "example": "User not logged in"
+          }
+        }
+      },
+      "DeadSingleServiceErrorResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "error"
+          },
+          "message": {
+            "type": "string",
+            "example": "Check your fields again and check if the Single Service API is running!"
+          }
+        }
+      },
+      "inline_response_200": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "message": {
+            "type": "string",
+            "example": "Fetched successfuly"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Listing"
+            }
+          }
+        }
+      },
+      "inline_response_200_1": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "message": {
+            "type": "string",
+            "example": "Fetched successfuly"
+          },
+          "data": {
+            "$ref": "#/components/schemas/Listing"
+          }
+        }
+      },
+      "inline_response_400": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "error"
+          },
+          "message": {
+            "type": "string",
+            "example": "Barang with id does not exist"
+          }
+        }
+      },
+      "inline_response_200_2": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "message": {
+            "type": "string",
+            "example": "Updated successfuly"
+          },
+          "data": {
+            "$ref": "#/components/schemas/Listing"
+          }
+        }
+      },
+      "inline_response_400_1": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "error"
+          },
+          "message": {
+            "type": "string",
+            "example": "Request must include correct nama, harga, stok, perusahaan_id and kode"
+          }
+        }
+      },
+      "inline_response_200_3": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "message": {
+            "type": "string",
+            "example": "User transactions fetched successfuly"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Transaction"
+            }
+          }
+        }
+      },
+      "inline_response_200_4": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "message": {
+            "type": "string",
+            "example": "Transaction created successfuly"
+          },
+          "data": {
+            "$ref": "#/components/schemas/Transaction"
+          }
+        }
+      },
+      "inline_response_400_2": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "error"
+          },
+          "message": {
+            "$ref": "#/components/schemas/inline_response_400_2_message"
+          }
+        }
+      },
+      "auth_login_body": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "abiel@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "password"
+          }
+        }
+      },
+      "inline_response_200_5": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "message": {
+            "type": "string",
+            "example": "User logged in successfuly"
+          },
+          "data": {
+            "$ref": "#/components/schemas/User"
+          },
+          "token": {
+            "type": "string",
+            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE2OTA1NjQwMzMsImV4cCI6MTY5MDU2NzYzMywibmJmIjoxNjkwNTY0MDMzLCJqdGkiOiJVakpoZ2FnTjRqTHNDaGgzIiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.pdOOw7pYf3VjkPVoqrfguVkgqTBaWOUI39G-edZPcyg"
+          }
+        }
+      },
+      "inline_response_400_3": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "error"
+          },
+          "message": {
+            "$ref": "#/components/schemas/inline_response_400_3_message"
+          }
+        }
+      },
+      "inline_response_401": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "error"
+          },
+          "message": {
+            "type": "string",
+            "example": "Invalid credentials"
+          }
+        }
+      },
+      "auth_register_body": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/User"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "password": {
+                "type": "string",
+                "example": "password"
+              }
+            }
+          }
+        ]
+      },
+      "inline_response_200_6": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "message": {
+            "type": "string",
+            "example": "User created successfuly"
+          },
+          "data": {
+            "$ref": "#/components/schemas/User"
+          },
+          "token": {
+            "type": "string",
+            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE2OTA1NjQwMzMsImV4cCI6MTY5MDU2NzYzMywibmJmIjoxNjkwNTY0MDMzLCJqdGkiOiJVakpoZ2FnTjRqTHNDaGgzIiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.pdOOw7pYf3VjkPVoqrfguVkgqTBaWOUI39G-edZPcyg"
+          }
+        }
+      },
+      "inline_response_400_4": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "error"
+          },
+          "message": {
+            "$ref": "#/components/schemas/inline_response_400_4_message"
+          }
+        }
+      },
+      "inline_response_200_7": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "message": {
+            "type": "string",
+            "example": "User logged out successfuly"
+          }
+        }
+      },
+      "inline_response_401_1": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "message": {
+            "type": "string",
+            "example": "User not logged in"
+          }
+        }
+      },
+      "inline_response_400_2_message": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "The selected user id is invalid"
+            }
+          },
+          "amount": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "The amount field is required"
+            }
+          },
+          "price": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "The price field is required"
+            }
+          }
+        }
+      },
+      "inline_response_400_3_message": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "The email field is required"
+            }
+          },
+          "password": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "The password field is required"
+            }
+          }
+        }
+      },
+      "inline_response_400_4_message": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "The email has already been taken"
+            }
+          },
+          "password": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "The password field is required"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

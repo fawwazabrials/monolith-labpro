@@ -65,9 +65,11 @@ Di dalam page detail barang, pengguna dapat memilih jumlah barang yang ingin dib
 Setiap pembelian yang sudah dilakukan oleh pengguna akan masuk ke dalam riwayat pembelian. Menu riwayat akan menunjukan seluruh transaksi pembelian yang telah dilakukan oleh pengguna. Untuk melihat riwayat pembelian, seorang pengguna harus login terlebih dahulu!
 
 ## Bonuses
-1. Responsive Layout  
+1. Dokumentasi API  
+Dibuat dokumentasi API backend monolith menggunakan Swagger. Dokumentasi API dapat dilihat dengan mengunjungi route `/api/docs`. Jika ingin menggunakan endpoint yang protected, anda harus menyertakan JWT token yang diberikan ketika login di authorize.
+2. Responsive Layout  
 Website dibuat dengan menggunakan Bootstrap sebagai framework CSS. Bootstrap menyediakan class-class plug and play yang bersifat responsive dan mobile-first. Sehingga, seluruh page website bersifat responsive dan dapat digunakan pada device mobile.
-2. Search bar  
+3. Search bar  
 Untuk mencari barang yang diinginkan, pengguna dapat menggunakan search bar. Pengguna dapat mencari berdasarkan nama suatu barang dan dapat juga mensortir barang berdasarkan nama, stok, dan harga secara menaik atau menurun.
 TODO: Dokumentasi API, Keranjang belanja, Deployment, OWASP?
 
