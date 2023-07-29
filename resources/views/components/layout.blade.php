@@ -16,7 +16,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-light border">
             <div class="container-fluid">
                 <a href="/" class="navbar-brand">Monolith</a>
-                <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav"><span class="navbar-toggler-icon"></span></button>
+                <button class="navbar-toggler" id="al" aria-label="Navbar Button" data-bs-toggle="collapse" data-bs-target="#nav"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="nav">
                     <ul class="navbar-nav ms-auto">
                         @auth
