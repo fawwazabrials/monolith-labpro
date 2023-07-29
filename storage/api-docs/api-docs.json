@@ -206,19 +206,6 @@
         "summary": "Mengambil transaksi pengguna",
         "description": "Mengembalikan list of transaksi",
         "operationId": "getTransaction",
-        "parameters": [
-          {
-            "name": "auth",
-            "in": "query",
-            "description": "JWT Token penggunan yang sedang log in",
-            "required": true,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "successful operation",

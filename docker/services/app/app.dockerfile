@@ -50,3 +50,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # CMD bash -c "cron && php-fpm"
 
 CMD bash -c "php-fpm"
+RUN composer install
+RUN php artisan key:generate
+RUN php artisan migrate:fresh --seed
